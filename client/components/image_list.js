@@ -4,19 +4,17 @@ import React from 'react';
 import ImageDetail from './image_detail';
 
 // create a dummy list of images so we have boilerplate data
-const IMAGES = [
-	{ title: 'Pen', link: 'http://dummyimage.com/300x200/000/fff' },
-	{ title: 'Pine Tree', link: 'http://dummyimage.com/300x200/000/fff' },
-	{ title: 'Mug', link: 'http://dummyimage.com/300x200/000/fff' }
-];
+
 
 // import is not just used for NPM modules; 
 //we can also import components from other files 
 
 // create our component
-// props = propeties; anything we pass from a parent to a child
-const ImageList = () => {
-	const RenderedImages = IMAGES.map(image =>
+// props = propeties; anything we pass from a parent to a child component
+const ImageList = (props) => {
+	const validImages = props.images.filter(image => !image.is_album);
+
+	const RenderedImages = validImages.map(image =>
 		 <ImageDetail key={image.title} image={image} />
 	);
 	return (

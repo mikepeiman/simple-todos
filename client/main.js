@@ -13,13 +13,25 @@ import ImageList from './components/image_list';
 
 // Create a component. A component's job is to produce some (any) amount of HTML.
 class App extends Component {
-	componentWillMount() {
-		console.log('App is about to render');
+	constructor(props) {
+		super(props);
+
+		this.state = { images: [] };
 	}
+// the only way to trigger re-render in a React component is with state
+
+
+	componentWillMount() {
+		// fantastic place to load data!
+		console.log('App is about to render');
+		axios.get('https://api.imgur.com/3/gallery/hot/viral/0')
+			.then(response => this.setState({ images: response.data.data }));
+	}
+
 	render() {
 		return (
 		<div>
-			<ImageList />
+			<ImageList images={this.state.images}/> 
 		</div> 
 		);
 	};
@@ -28,8 +40,6 @@ class App extends Component {
 // Render this component to the screen. To do this we need React DOM /
 Meteor.startup(() => {
 	ReactDOM.render(<App />, document.querySelector('.container'));
-	axios.get('https://api.imgur.com/3/gallery/hot/viral/0')
-	.then(response => console.log(response));
 });
 
 // In any React application we make, we're only ever going to use
